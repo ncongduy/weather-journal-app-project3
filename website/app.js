@@ -2,7 +2,7 @@
 const $ = document.getElementById.bind(document);
 const generateBtn = $('generate');
 const userFeelings = $('feelings');
-const localServer = 'http://localhost:9000/data';
+const localServer = 'http://localhost:9001/data';
 
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -33,11 +33,21 @@ async function getDataFromServer() {
 	}
 }
 
+async function getApiKeyFromServer() {
+	try {
+		const fetchData = await fetch('http://localhost:9001/api');
+		const dataResponse = await fetchData.json();
+
+		return dataResponse.apiKey;
+	} catch (error) {
+		alert(error);
+	}
+}
+
 // async function GET data from www.openweathermap.org
-async function getDataFromOpenweather() {
+async function getDataFromOpenweather(apiKey) {
 	try {
 		const zipcode = $('zip');
-		const apiKey = '0c17cdbab6fa1bb15d38819ca8560a23';
 		const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zipcode.value},us&appid=${apiKey}`;
 		const fetchData = await fetch(url);
 		const dataResponse = await fetchData.json();
@@ -94,7 +104,8 @@ getDataFromServer()
 
 // GET data from www.openweathermap.org, then POST data to server.js, then update to UI
 function handleDynamicUpdateUI() {
-	getDataFromOpenweather()
+	getApiKeyFromServer()
+		.then((api) => getDataFromOpenweather(api))
 		.then((data) => postDataToServer(data))
 		.then((data) => render(data))
 		.then(() => clearInput())

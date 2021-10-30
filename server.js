@@ -7,11 +7,16 @@ const express = require('express');
 // Start up an instance of app
 const app = express();
 
+// Use API_KEY from .env
+const dotenv = require('dotenv');
+dotenv.config();
+const apiKey = process.env.API_KEY;
+
 /* Middleware*/
 //Here we are configuring express to use body-parser as middle-ware.
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // Cors for cross origin allowance
 const cors = require('cors');
@@ -26,6 +31,11 @@ app.get('/data', (req, res) => {
 	res.send(projectData);
 });
 
+app.get('/api', (req, res) => {
+	console.log('GET', 'API_KEY');
+	res.send({ apiKey });
+});
+
 // POST method route
 app.post('/data', (req, res) => {
 	projectData['date'] = req.body.date;
@@ -35,7 +45,7 @@ app.post('/data', (req, res) => {
 });
 
 // Setup Server
-const port = 9000;
+const port = 9001;
 app.listen(port, () => {
 	console.log(`Weather app listening at http://localhost:${port}`);
 });
