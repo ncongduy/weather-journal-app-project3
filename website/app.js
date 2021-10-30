@@ -2,7 +2,7 @@
 const $ = document.getElementById.bind(document);
 const generateBtn = $('generate');
 const userFeelings = $('feelings');
-const localServer = 'http://localhost:9001/data';
+const localServer = 'https://weather-journal-app-project3.herokuapp.com/data';
 
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -35,7 +35,7 @@ async function getDataFromServer() {
 
 async function getApiKeyFromServer() {
 	try {
-		const fetchData = await fetch('http://localhost:9001/api');
+		const fetchData = await fetch('https://weather-journal-app-project3.herokuapp.com/api');
 		const dataResponse = await fetchData.json();
 
 		return dataResponse.apiKey;

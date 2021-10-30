@@ -47,5 +47,5 @@ app.post('/data', (req, res) => {
 // Setup Server
 const port = process.env.PORT || 9001;
 app.listen(port, () => {
-	console.log(`Weather app listening at http://localhost:${port}`);
+	console.log(`Weather app is listening on port:${port}`);
 });
